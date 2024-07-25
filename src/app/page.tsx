@@ -1,8 +1,9 @@
-const regions = ["Africa", "America", "Asia", "Europe", "Oceania"];
+import { CountrySelect } from "../components/CountrySelect";
+import { getCountries, CountrySummary } from "./data";
 
-type Region = "Africa" | "America" | "Asia" | "Europe" | "Oceania";
+export default async function Home() {
+  const summaries = await getCountries();
 
-export default function Home() {
   return (
     <main>
       <div className="flex flex-row flex-wrap justify-between items-baseline bg-container dark:bg-container-dark shadow p-8">
@@ -24,38 +25,18 @@ export default function Home() {
                 placeholder="Search for a country..."
               />
             </div>
-
-            <select className="bg-container dark:bg-container-dark p-4 rounded-md">
-              <option value="" selected>
-                Filter by region
-              </option>
-              {regions.map((region) => (
-                <option key={region} value={region}>
-                  {region}
-                </option>
-              ))}
-            </select>
           </div>
+          <CountrySelect />
         </div>
 
-        <div>
-          {CountrySummaryCard({
-            name: "Germany",
-            population: 81_770_800,
-            region: "Europe",
-            capital: "Berlin",
-          })}
+        <div className="flex flex-1 flex-wrap gap-4 justify-center my-8">
+          {summaries.map((summary) => (
+            <CountrySummaryCard key={summary.name} {...summary} />
+          ))}
         </div>
       </div>
     </main>
   );
-}
-
-interface CountrySummary {
-  name: string;
-  population: number;
-  region: Region;
-  capital: string;
 }
 
 function CountrySummaryCard({
@@ -67,7 +48,7 @@ function CountrySummaryCard({
   return (
     <div className="bg-container dark:bg-container-dark rounded-md">
       {/** Flag */}
-      <div className="h-[200px] bg-yellow-800 rounded-md"></div>
+      <div className="h-[200px] w-[300px] bg-yellow-800 rounded-md"></div>
       <div className="p-8">
         <strong className="text-lg">{name}</strong>
         <div className="mt-4">
