@@ -19,7 +19,15 @@ export default function RootLayout({
       lang="en"
       className="bg-surface dark:bg-surface-dark text-on-container dark:text-on-container-dark"
     >
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="flex flex-row flex-wrap justify-between items-baseline bg-container dark:bg-container-dark shadow p-8">
+          <a href="/">
+            <h1 className="font-bold">Where in the World?</h1>
+          </a>
+          <p>Dark Mode</p>
+        </div>
+        <main>{children}</main>
+      </body>
     </html>
   );
 }
