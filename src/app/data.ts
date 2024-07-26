@@ -17,7 +17,7 @@ export interface CountryDetails extends CountrySummary {
   topLevelDomain: string[];
   currencies?: Currency[];
   languages: Language[];
-  borders?: string[];
+  borders?: Border[] | string[];
 }
 export interface Currency {
   code: string;
@@ -34,6 +34,11 @@ export interface Flags {
 export interface Language {
   name: string;
   nativeName?: string;
+}
+
+export interface Border {
+  name: string;
+  alpha3Code: string;
 }
 
 export async function getAllCountries(
@@ -72,27 +77,45 @@ export async function getAllCountries(
 }
 
 export async function getCountry(alpha3Code: string): Promise<CountryDetails> {
-  try {
-    const fields =
-      "name,nativeName,population,region,flags,capital,subregion,languages,topLevelDomain,currencies,borders";
-    const res = await fetch(
-      `https://restcountries.com/v2/alpha/${alpha3Code}?fields=${fields}`
-    );
+  // try {
+  //   const fields =
+  //     "name,nativeName,population,region,flags,capital,subregion,languages,topLevelDomain,currencies,borders";
+  //   const res = await fetch(
+  //     `https://restcountries.com/v2/alpha/${alpha3Code}?fields=${fields}`
+  //   );
 
-    const countryDetails: CountryDetails = await res.json();
+  //   const countryDetails: CountryDetails = await res.json();
 
-    return countryDetails;
-  } catch (err) {
-    console.error(err);
+  //   return countryDetails;
+  // } catch (err) {
+  //   console.error(err);
+  // }
+
+  const country = mockData.countries.find(
+    (country) => alpha3Code === country.alpha3Code
+  );
+
+  const borders: Border[] = [];
+  if (country?.borders !== undefined) {
+    for (let countryCode of country.borders) {
+      let borderCountry = mockData.countries.find(
+        (country) => country.alpha3Code === countryCode
+      );
+
+      console.log(borderCountry?.name);
+
+      if (borderCountry !== undefined) {
+        borders.push({
+          name: borderCountry.name,
+          alpha3Code: borderCountry.alpha3Code,
+        });
+      }
+    }
   }
-
-  const country = mockData.countries.find((country) => {
-    country.alpha3Code == alpha3Code;
-  });
 
   if (!country) {
-    throw new Error("Invalid country code.");
+    throw new Error(`Invalid country code: ${alpha3Code}`);
   }
 
-  return country;
+  return { ...country, borders: borders };
 }
