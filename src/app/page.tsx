@@ -45,7 +45,7 @@ function CountrySummaryCard({
       {/** Flag */}
       {/* <div className="h-[200px] w-[300px] bg-yellow-800 rounded-md"></div> */}
       <img
-        className="rounded-md"
+        className="rounded-md h-[200px] object-cover"
         width={300}
         height={200}
         src={flags.png}
