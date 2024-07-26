@@ -1,6 +1,5 @@
 export const regions = ["Africa", "America", "Asia", "Europe", "Oceania"];
 export type Region = "Africa" | "America" | "Asia" | "Europe" | "Oceania";
-import mockData from "@/data.json";
 
 export interface CountrySummary {
   alpha3Code: string;
@@ -41,6 +40,11 @@ export interface Border {
   alpha3Code: string;
 }
 
+export interface ErrorResponse {
+  message?: string;
+  status?: string;
+}
+
 export async function getAllCountries(
   countryName?: string,
   region?: Region
@@ -55,6 +59,11 @@ export async function getAllCountries(
     const res = await fetch(`${url}?fields=${fields}`);
     let countries: CountrySummary[] = await res.json();
 
+    const error = countries as ErrorResponse;
+    if (error.status) {
+      throw new Error(error.message);
+    }
+
     if (region) {
       return countries.filter((country) => country.region === region);
     }
@@ -62,77 +71,54 @@ export async function getAllCountries(
     return countries;
   } catch (err) {
     console.error(err);
+    throw err;
   }
-
-  let countries = mockData.countries.map((country) => {
-    return {
-      alpha3Code: country.alpha3Code,
-      name: country.name,
-      flags: country.flags,
-      population: country.population,
-      region: country.region,
-      capital: country.capital,
-    };
-  });
-
-  if (region) {
-    countries = countries.filter((country) => country.region === region);
-  }
-
-  if (countryName) {
-    countries = countries.filter((country) => {
-      const regexp = new RegExp(countryName.trim(), "i"); // i flag is for ignoring case differences
-      const matches = regexp.test(country.name.trim());
-
-      return matches;
-    });
-  }
-
-  return countries;
 }
 
-export async function getCountry(alpha3Code: string): Promise<CountryDetails> {
+export async function getCountry(
+  alpha3Code: string,
+  withBorders: boolean = true
+): Promise<CountryDetails> {
   try {
-    const fields =
-      "name,nativeName,population,region,flags,capital,subregion,languages,topLevelDomain,currencies,borders";
+    const fields = withBorders
+      ? "name,nativeName,population,region,flags,capital,subregion,languages,topLevelDomain,currencies,borders"
+      : "name";
     const res = await fetch(
       `https://restcountries.com/v2/alpha/${alpha3Code}?fields=${fields}`
     );
 
     const countryDetails: CountryDetails = await res.json();
 
-    return { ...countryDetails, borders: getBorders(countryDetails) };
+    const error = countryDetails as ErrorResponse;
+    if (error.status) {
+      throw new Error(error.message);
+    }
+
+    if (withBorders) {
+      const borders = await getBorders(countryDetails);
+      console.log(borders);
+      return { ...countryDetails, borders: borders };
+    } else return countryDetails;
   } catch (err) {
     console.error(err);
+    throw err;
   }
-
-  const country = mockData.countries.find(
-    (country) => alpha3Code === country.alpha3Code
-  );
-
-  if (!country) {
-    throw new Error(`Invalid country code: ${alpha3Code}`);
-  }
-
-  return { ...country, borders: getBorders(country) };
 }
 
-function getBorders(country: CountryDetails): Border[] {
+async function getBorders(country: CountryDetails): Promise<Border[]> {
   const borders: Border[] = [];
   if (country?.borders !== undefined) {
     for (let countryCode of country.borders) {
-      let borderCountry = mockData.countries.find(
-        (country) => country.alpha3Code === countryCode
-      );
+      let borderCountry = await getCountry(countryCode as string, false);
 
-      if (borderCountry !== undefined) {
-        borders.push({
-          name: borderCountry.name,
-          alpha3Code: borderCountry.alpha3Code,
-        });
-      }
+      borders.push({
+        name: borderCountry.name,
+        alpha3Code: countryCode as string,
+      });
     }
   }
+
+  console.log(borders);
 
   return borders;
 }
