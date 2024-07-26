@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { cn } from "@/lib/utils";
 
 const nunitoSans = Nunito_Sans({ subsets: ["latin"] });
 
@@ -16,11 +17,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className="bg-surface dark:bg-surface-dark text-on-container dark:text-on-container-dark"
-    >
-      <body className={nunitoSans.className}>
+    <html lang="en">
+      <body
+        className={cn(
+          nunitoSans.className,
+          "bg-surface dark:bg-surface-dark text-on-container dark:text-on-container-dark"
+        )}
+      >
         <Navbar />
         <main>{children}</main>
       </body>
