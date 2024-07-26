@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CountrySelect } from "../components/CountrySelect";
 import { getAllCountries, CountrySummary } from "./data";
+import InfoRow from "@/components/InfoRow";
 
 export default async function Home() {
   const summaries = await getAllCountries();
@@ -22,7 +23,7 @@ export default async function Home() {
         <CountrySelect />
       </div>
 
-      <div className="flex flex-1 flex-wrap gap-4 justify-center my-8">
+      <div className="flex flex-1 flex-wrap gap-8 justify-center my-8">
         {summaries.map((summary) => (
           <CountrySummaryCard key={summary.name} {...summary} />
         ))}
@@ -37,28 +38,27 @@ function CountrySummaryCard({
   population,
   region,
   capital,
+  flags,
 }: CountrySummary) {
   return (
-    <div className="bg-container dark:bg-container-dark rounded-md">
+    <div className="bg-container w-[300px] dark:bg-container-dark rounded-md">
       {/** Flag */}
-      <div className="h-[200px] w-[300px] bg-yellow-800 rounded-md"></div>
+      {/* <div className="h-[200px] w-[300px] bg-yellow-800 rounded-md"></div> */}
+      <img
+        className="rounded-md"
+        width={300}
+        height={200}
+        src={flags.png}
+        alt={flags.alt || `Flag of the country ${name}`}
+      />
       <div className="p-8">
         <Link href={`/details/${alpha3Code}`}>
           <strong className="text-lg">{name}</strong>
         </Link>
         <div className="mt-4">
-          <p>
-            <span className="font-bold">Population: </span>
-            {new Intl.NumberFormat().format(population)}
-          </p>
-          <p>
-            <span className="font-bold">Region: </span>
-            {region}
-          </p>
-          <p>
-            <span className="font-bold">Capital: </span>
-            {capital}
-          </p>
+          <InfoRow name="Population" value={population} />
+          <InfoRow name="Region" value={region} />
+          <InfoRow name="Capital" value={capital} />
         </div>
       </div>
     </div>
