@@ -1,25 +1,26 @@
 import Link from "next/link";
 import { CountrySelect } from "../components/CountrySelect";
-import { getAllCountries, CountrySummary } from "./data";
+import { getAllCountries, CountrySummary, Region } from "./data";
 import InfoRow from "@/components/InfoRow";
+import Search from "@/components/Search";
 
-export default async function Home() {
-  const summaries = await getAllCountries();
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: {
+    name?: string;
+    region?: string;
+  };
+}) {
+  const summaries = await getAllCountries(
+    searchParams.name,
+    searchParams.region as Region
+  );
 
   return (
     <div className="flex flex-col items-center">
       <div className="w-11/12">
-        <div className="flex flex-wrap my-8">
-          <div className="bg-dark-gray dark:bg-container-dark flex items-center p-4 gap-4 w-full mb-8 rounded-md">
-            <p className="font-bold">Icon</p>
-            <input
-              className="bg-dark-gray dark:bg-container-dark border-none outline-none w-full"
-              name="country"
-              type="search"
-              placeholder="Search for a country..."
-            />
-          </div>
-        </div>
+        <Search />
         <CountrySelect />
       </div>
 
