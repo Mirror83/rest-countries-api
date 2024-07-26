@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +22,9 @@ export default function RootLayout({
     >
       <body className={inter.className}>
         <div className="flex flex-row flex-wrap justify-between items-baseline bg-container dark:bg-container-dark shadow p-8">
-          <a href="/">
+          <Link href="/">
             <h1 className="font-bold">Where in the World?</h1>
-          </a>
+          </Link>
           <p>Dark Mode</p>
         </div>
         <main>{children}</main>
