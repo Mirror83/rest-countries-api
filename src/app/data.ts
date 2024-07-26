@@ -81,14 +81,9 @@ export async function getAllCountries(
 
   if (countryName) {
     countries = countries.filter((country) => {
-      const test = countryName.trim();
-      const tester = country.name.trim();
+      const regexp = new RegExp(countryName.trim(), "i"); // i flag is for ignoring case differences
+      const matches = regexp.test(country.name.trim());
 
-      const regexp = new RegExp(test, "i"); // i flag is for ignoring case differences
-      const matches = regexp.test(tester);
-      if (matches) {
-        console.log(`${test}:${tester}`);
-      }
       return matches;
     });
   }
