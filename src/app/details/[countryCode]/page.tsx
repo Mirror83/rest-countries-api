@@ -41,7 +41,7 @@ function DetailCard({ details, className }: DetailCardProps) {
         alt={details.flags.alt || `Flag of the country ${details.name}`}
       />
       <div>
-        <div className="my-8">
+        <div className="my-8 lg:mt-0">
           <strong className="text-2xl font-extrabold">{details.name}</strong>
         </div>
 
