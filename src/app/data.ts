@@ -125,8 +125,6 @@ function getBorders(country: CountryDetails): Border[] {
         (country) => country.alpha3Code === countryCode
       );
 
-      console.log(borderCountry?.name);
-
       if (borderCountry !== undefined) {
         borders.push({
           name: borderCountry.name,
