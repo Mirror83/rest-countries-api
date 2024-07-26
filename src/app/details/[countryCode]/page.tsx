@@ -1,4 +1,5 @@
 import { Border, CountryDetails, getCountry } from "@/app/data";
+import { BackButton } from "@/components/BackButton";
 import InfoRow from "@/components/InfoRow";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -13,11 +14,7 @@ export default async function Page({
   return (
     <div className="flex flex-col items-center pb-8 pt-12 px-8 md:p-0">
       <div>
-        <Link href={"/"}>
-          <button className="mb-16 bg-container dark:bg-container-dark px-8 py-2">
-            Back
-          </button>
-        </Link>
+        <BackButton />
         <DetailCard details={details} />
       </div>
     </div>
