@@ -42,9 +42,7 @@ function CountrySummaryCard({
   flags,
 }: CountrySummary) {
   return (
-    <div className="bg-container w-[300px] dark:bg-container-dark rounded-md">
-      {/** Flag */}
-      {/* <div className="h-[200px] w-[300px] bg-yellow-800 rounded-md"></div> */}
+    <div className="bg-container w-[300px] dark:bg-container-dark rounded-md shadow-md">
       <img
         className="rounded-md h-[200px] object-cover"
         width={300}
