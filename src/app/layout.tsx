@@ -21,11 +21,12 @@ export default function RootLayout({
       <body
         className={cn(
           nunitoSans.className,
-          "bg-surface dark:bg-surface-dark text-on-container dark:text-on-container-dark"
+          "flex flex-col",
+          "bg-surface dark:bg-surface-dark text-on-container dark:text-on-container-dark min-h-screen"
         )}
       >
         <Navbar />
-        <main>{children}</main>
+        <main className="flex flex-col flex-auto">{children}</main>
       </body>
     </html>
   );
