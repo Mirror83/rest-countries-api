@@ -53,18 +53,18 @@ export async function getAllCountries(
       : `https://restcountries.com/v2/all`;
 
     const res = await fetch(`${url}?fields=${fields}`);
-    const countires: CountrySummary[] = await res.json();
+    let countries: CountrySummary[] = await res.json();
 
     if (region) {
-      return countires.filter((country) => country.region == region);
+      return countries.filter((country) => country.region === region);
     }
 
-    return countires;
+    return countries;
   } catch (err) {
     console.error(err);
   }
 
-  return mockData.countries.map((country) => {
+  let countries = mockData.countries.map((country) => {
     return {
       alpha3Code: country.alpha3Code,
       name: country.name,
@@ -74,27 +74,55 @@ export async function getAllCountries(
       capital: country.capital,
     };
   });
+
+  if (region) {
+    countries = countries.filter((country) => country.region === region);
+  }
+
+  if (countryName) {
+    countries = countries.filter((country) => {
+      const test = countryName.trim();
+      const tester = country.name.trim();
+
+      const regexp = new RegExp(test, "i"); // i flag is for ignoring case differences
+      const matches = regexp.test(tester);
+      if (matches) {
+        console.log(`${test}:${tester}`);
+      }
+      return matches;
+    });
+  }
+
+  return countries;
 }
 
 export async function getCountry(alpha3Code: string): Promise<CountryDetails> {
-  // try {
-  //   const fields =
-  //     "name,nativeName,population,region,flags,capital,subregion,languages,topLevelDomain,currencies,borders";
-  //   const res = await fetch(
-  //     `https://restcountries.com/v2/alpha/${alpha3Code}?fields=${fields}`
-  //   );
+  try {
+    const fields =
+      "name,nativeName,population,region,flags,capital,subregion,languages,topLevelDomain,currencies,borders";
+    const res = await fetch(
+      `https://restcountries.com/v2/alpha/${alpha3Code}?fields=${fields}`
+    );
 
-  //   const countryDetails: CountryDetails = await res.json();
+    const countryDetails: CountryDetails = await res.json();
 
-  //   return countryDetails;
-  // } catch (err) {
-  //   console.error(err);
-  // }
+    return { ...countryDetails, borders: getBorders(countryDetails) };
+  } catch (err) {
+    console.error(err);
+  }
 
   const country = mockData.countries.find(
     (country) => alpha3Code === country.alpha3Code
   );
 
+  if (!country) {
+    throw new Error(`Invalid country code: ${alpha3Code}`);
+  }
+
+  return { ...country, borders: getBorders(country) };
+}
+
+function getBorders(country: CountryDetails): Border[] {
   const borders: Border[] = [];
   if (country?.borders !== undefined) {
     for (let countryCode of country.borders) {
@@ -113,9 +141,5 @@ export async function getCountry(alpha3Code: string): Promise<CountryDetails> {
     }
   }
 
-  if (!country) {
-    throw new Error(`Invalid country code: ${alpha3Code}`);
-  }
-
-  return { ...country, borders: borders };
+  return borders;
 }
