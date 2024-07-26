@@ -1,5 +1,19 @@
-export const regions = ["Africa", "America", "Asia", "Europe", "Oceania"];
-export type Region = "Africa" | "America" | "Asia" | "Europe" | "Oceania";
+export const regions = [
+  "Africa",
+  "Americas",
+  "Asia",
+  "Europe",
+  "Oceania",
+  "Polar",
+];
+
+export type Region =
+  | "Africa"
+  | "Americas"
+  | "Asia"
+  | "Europe"
+  | "Oceania"
+  | "Polar";
 
 export interface CountrySummary {
   alpha3Code: string;
