@@ -3,55 +3,34 @@
 import Link from "next/link";
 import { MoonIcon } from "@heroicons/react/16/solid";
 import { SunIcon } from "@heroicons/react/24/outline";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
-function Navbar() {
+type NavbarProps = {
+  theme: string;
+  toggleTheme: VoidFunction;
+};
+
+function Navbar({ theme, toggleTheme }: NavbarProps) {
   return (
-    <div className="flex flex-row flex-wrap justify-between items-center bg-container dark:bg-container-dark shadow p-8">
+    <div
+      className={cn(
+        "flex flex-row flex-wrap justify-between items-center bg-container dark:bg-container-dark shadow p-8"
+      )}
+    >
       <Link href="/">
         <h1 className="font-bold">Where in the World?</h1>
       </Link>
-      <ThemeToggler />
+      <ThemeToggler theme={theme} toggleTheme={toggleTheme} />
     </div>
   );
 }
 
-function ThemeToggler() {
-  function toggleTheme() {
-    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
-  }
+type ThemeTogglerProps = {
+  theme: string;
+  toggleTheme: VoidFunction;
+};
 
-  const [theme, setTheme] = useState("");
-
-  useLayoutEffect(() => {
-    function getCurrentTheme() {
-      const osPrefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme === "dark" || (savedTheme === null && osPrefersDark)) {
-        return "dark";
-      } else {
-        return "light";
-      }
-    }
-
-    setTheme(getCurrentTheme());
-  }, []);
-
-  useEffect(() => {
-    const osPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    if (theme === "dark" || (theme === "" && osPrefersDark)) {
-      localStorage.setItem("theme", "dark");
-      document.querySelector("html")?.classList.add("dark");
-    } else {
-      localStorage.setItem("theme", "light");
-      document.querySelector("html")?.classList.remove("dark");
-    }
-  }, [theme]);
-
+function ThemeToggler({ theme, toggleTheme }: ThemeTogglerProps) {
   return (
     <div className="flex gap-2 items-center">
       <button onClick={toggleTheme}>
