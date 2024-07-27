@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect } from "react";
 
 export default function Error({
@@ -18,9 +17,9 @@ export default function Error({
       <div className="flex flex-col items-center">
         <strong className="text-xl">{error.message}</strong>
         <div className="flex gap-4 items-center my-4">
-          <Link href={"/"} className="underline">
+          <a href={"/"} className="underline">
             Back Home
-          </Link>
+          </a>
         </div>
       </div>
     </div>
