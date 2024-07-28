@@ -152,6 +152,8 @@ Overally, I think the result is a bit OK. It's not perfect (e.g, does not show a
 
 ### What I learned
 
+- Implementing dynamic themeing in Next.js using Tailwind CSS.
+
 ### Continued development
 
 I'll probably try to work more on the issues mentioned above.
