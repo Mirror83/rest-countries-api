@@ -30,12 +30,12 @@ function Navbar({ className }: NavbarProps) {
 function ThemeToggler() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   return (
-    <button onClick={toggleTheme}>
-      <div className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center">
+      <button onClick={toggleTheme} aria-label="Toggle theme">
         {theme === "dark" ? <MoonIcon height={30} /> : <SunIcon height={30} />}
-        <span>{`${theme === "dark" ? "Dark" : "Light"} Mode`}</span>
-      </div>
-    </button>
+      </button>
+      <p>{`${theme === "dark" ? "Dark" : "Light"} Mode`}</p>
+    </div>
   );
 }
 
