@@ -4,33 +4,31 @@ import Link from "next/link";
 import { MoonIcon } from "@heroicons/react/16/solid";
 import { SunIcon } from "@heroicons/react/24/outline";
 import { cn } from "@/lib/utils";
+import { useContext } from "react";
+import { ThemeContext } from "@/app/ThemeConetxt";
 
 type NavbarProps = {
-  theme: string;
-  toggleTheme: VoidFunction;
+  className?: string;
 };
 
-function Navbar({ theme, toggleTheme }: NavbarProps) {
+function Navbar({ className }: NavbarProps) {
   return (
     <div
       className={cn(
+        className,
         "flex flex-row flex-wrap justify-between items-center bg-container dark:bg-container-dark shadow p-8"
       )}
     >
       <Link href="/">
         <h1 className="font-bold">Where in the World?</h1>
       </Link>
-      <ThemeToggler theme={theme} toggleTheme={toggleTheme} />
+      <ThemeToggler />
     </div>
   );
 }
 
-type ThemeTogglerProps = {
-  theme: string;
-  toggleTheme: VoidFunction;
-};
-
-function ThemeToggler({ theme, toggleTheme }: ThemeTogglerProps) {
+function ThemeToggler() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
   return (
     <div className="flex gap-2 items-center">
       <button onClick={toggleTheme}>

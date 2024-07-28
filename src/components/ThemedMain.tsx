@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { cn } from "@/lib/utils";
+import { ThemeContext } from "@/app/ThemeConetxt";
 
 let globalTheme = "dark";
 
@@ -52,11 +53,18 @@ export default function ThemedMain({ className, children }: ThemedMainProps) {
   }, [theme]);
 
   return (
-    <main
-      className={cn(className, "flex flex-col", theme === "dark" && "dark")}
+    <ThemeContext.Provider
+      value={{
+        theme,
+        toggleTheme,
+      }}
     >
-      <Navbar theme={theme} toggleTheme={toggleTheme} />
-      {children}
-    </main>
+      <main
+        className={cn(className, "flex flex-col", theme === "dark" && "dark")}
+      >
+        <Navbar />
+        {children}
+      </main>
+    </ThemeContext.Provider>
   );
 }
