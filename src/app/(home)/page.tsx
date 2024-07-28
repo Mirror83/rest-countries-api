@@ -1,11 +1,10 @@
-import Link from "next/link";
-import { CountrySelect } from "../components/CountrySelect";
-import { getAllCountries, CountrySummary, Region } from "../lib/data";
 import InfoRow from "@/components/InfoRow";
-import Search from "@/components/Search";
-import { cn } from "@/lib/utils";
-import { Suspense } from "react";
 import Loading from "@/components/Loading";
+import { getAllCountries, Region, CountrySummary } from "@/lib/data";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { Suspense } from "react";
+import NotFound from "../not-found";
 
 export default async function Home({
   searchParams,
@@ -20,19 +19,17 @@ export default async function Home({
     searchParams.region as Region
   );
 
+  if (summaries.length === 0) {
+    return <NotFound showLink={false} />;
+  }
+
   return (
-    <div className="">
-      <div className="flex flex-wrap w-full justify-between items-center px-8">
-        <Search className="md:max-w-[500px]" />
-        <CountrySelect />
-      </div>
-      <Suspense fallback={<Loading />}>
-        <CountrySummaries
-          summaries={summaries}
-          className="flex w-full flex-wrap gap-8 py-8 px-8 justify-center lg:grid-cols-4"
-        />
-      </Suspense>
-    </div>
+    <Suspense fallback={<Loading />}>
+      <CountrySummaries
+        summaries={summaries}
+        className="flex w-full flex-wrap gap-8 py-8 px-8 justify-center lg:grid-cols-4"
+      />
+    </Suspense>
   );
 }
 
