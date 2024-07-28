@@ -20,7 +20,7 @@ export function RegionSelect() {
   return (
     <div className="flex h-min gap-2 bg-container dark:bg-container-dark w-min p-4 rounded-md">
       <select
-        name="region-select"
+        aria-label="Region"
         className="appearance-none pe-8 hover:cursor-pointer bg-container dark:bg-container-dark"
         onChange={(e) => handleSelect(e.target.value)}
         defaultValue={searchParams?.get("region")?.toString()}
