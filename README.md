@@ -14,7 +14,6 @@ This is a solution to the [REST Countries API with color theme switcher challeng
   - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
 
 ## Overview
 
@@ -152,6 +151,7 @@ Overally, I think the result is a bit OK. It's not perfect (e.g, does not show a
 
 ### What I learned
 
+- Handling search state using the URL in Next.js (I had encounterd the pattern itself earlier though in [React Router's documentation](https://reactrouter.com/en/main/start/tutorial#get-submissions-with-client-side-routing))
 - Implementing dynamic themeing in Next.js using Tailwind CSS.
 
 ### Continued development
