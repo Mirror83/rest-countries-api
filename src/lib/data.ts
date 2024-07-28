@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation";
+
 export const regions = [
   "Africa",
   "Americas",
@@ -56,7 +58,7 @@ export interface Border {
 
 export interface ErrorResponse {
   message?: string;
-  status?: string;
+  status?: number;
 }
 
 export async function getAllCountries(
@@ -75,11 +77,16 @@ export async function getAllCountries(
 
     const error = countries as ErrorResponse;
     if (error.status) {
+      if (error.status === 404) return [];
       throw new Error(error.message);
     }
 
     if (region) {
-      return countries.filter((country) => country.region === region);
+      if (regions.find((r) => r === region)) {
+        return countries.filter((country) => country.region === region);
+      } else {
+        throw new Error(`Invalid region: ${region}`);
+      }
     }
 
     return countries;
@@ -105,6 +112,9 @@ export async function getCountry(
 
     const error = countryDetails as ErrorResponse;
     if (error.status) {
+      if (error.status === 404) return notFound();
+      else if (error.status === 400) throw new Error("Invalid country code.");
+
       throw new Error(error.message);
     }
 
