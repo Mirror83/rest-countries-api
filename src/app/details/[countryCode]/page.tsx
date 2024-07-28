@@ -87,7 +87,7 @@ function DetailCard({ details, className }: DetailCardProps) {
                 key={border.alpha3Code}
                 href={`/details/${border.alpha3Code}`}
               >
-                <div className="px-4 py-2 bg-container dark:bg-container-dark">
+                <div className="px-4 py-2 bg-container dark:bg-container-dark shadow-sm">
                   {border.name}
                 </div>
               </Link>
