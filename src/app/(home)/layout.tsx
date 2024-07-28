@@ -1,4 +1,4 @@
-import { CountrySelect } from "@/components/CountrySelect";
+import { RegionSelect } from "@/components/RegionSelect";
 import Search from "@/components/Search";
 
 export default async function HomeLayout({
@@ -10,7 +10,7 @@ export default async function HomeLayout({
     <div className="flex flex-auto flex-col">
       <div className="flex flex-wrap w-full justify-between items-center px-8">
         <Search className="md:max-w-[500px]" />
-        <CountrySelect />
+        <RegionSelect />
       </div>
       {children}
     </div>
