@@ -110,7 +110,6 @@ export async function getCountry(
 
     if (withBorders) {
       const borders = await getBorders(countryDetails);
-      console.log(borders);
       return { ...countryDetails, borders: borders };
     } else return countryDetails;
   } catch (err) {
@@ -131,8 +130,6 @@ async function getBorders(country: CountryDetails): Promise<Border[]> {
       });
     }
   }
-
-  console.log(borders);
 
   return borders;
 }
