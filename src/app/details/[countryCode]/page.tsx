@@ -1,4 +1,4 @@
-import { Border, CountryDetails, getCountry } from "@/app/data";
+import { Border, CountryDetails, getCountry } from "@/lib/data";
 import { BackButton } from "@/components/BackButton";
 import InfoRow from "@/components/InfoRow";
 import Loading from "@/components/Loading";

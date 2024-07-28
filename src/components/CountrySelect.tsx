@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { regions } from "../app/data";
+import { regions } from "../lib/data";
 
 export function CountrySelect() {
   const searchParams = useSearchParams();

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CountrySelect } from "../components/CountrySelect";
-import { getAllCountries, CountrySummary, Region } from "./data";
+import { getAllCountries, CountrySummary, Region } from "../lib/data";
 import InfoRow from "@/components/InfoRow";
 import Search from "@/components/Search";
 import { cn } from "@/lib/utils";
