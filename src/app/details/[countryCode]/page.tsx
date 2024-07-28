@@ -1,8 +1,10 @@
 import { Border, CountryDetails, getCountry } from "@/app/data";
 import { BackButton } from "@/components/BackButton";
 import InfoRow from "@/components/InfoRow";
+import Loading from "@/components/Loading";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default async function Page({
   params,
@@ -15,10 +17,12 @@ export default async function Page({
     <div className="flex flex-col items-center pb-12 pt-12 px-8">
       <div className="lg:w-11/12">
         <BackButton />
-        <DetailCard
-          details={details}
-          className="lg:grid grid-cols-2 gap-16 items-center"
-        />
+        <Suspense fallback={<Loading />}>
+          <DetailCard
+            details={details}
+            className="lg:grid grid-cols-2 gap-16 items-center"
+          />
+        </Suspense>
       </div>
     </div>
   );
