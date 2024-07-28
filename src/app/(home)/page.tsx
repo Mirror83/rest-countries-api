@@ -68,7 +68,7 @@ function CountrySummaryCard({
       />
       <div className="p-8">
         <Link href={`/details/${alpha3Code}`}>
-          <strong className="text-lg">{name}</strong>
+          <strong className="text-lg font-extrabold">{name}</strong>
         </Link>
         <div className="mt-4">
           <InfoRow name="Population" value={population} />

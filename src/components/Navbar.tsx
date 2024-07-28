@@ -20,7 +20,7 @@ function Navbar({ className }: NavbarProps) {
       )}
     >
       <Link href="/">
-        <h1 className="font-bold">Where in the World?</h1>
+        <h1 className="font-bold text-xl md:text-2xl">Where in the World?</h1>
       </Link>
       <ThemeToggler />
     </div>
